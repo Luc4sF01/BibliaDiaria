@@ -1,0 +1,77 @@
+<link rel="stylesheet" href="/style.css">
+
+<!-- Menu Navegação -->
+<nav class="menu">
+    <ul>
+        <li><a href="#hero">Início</a></li>
+        <li><a href="#adicionar">Publicar no diário</a></li>
+        <li><a href="#historico">Histórico Diário</a></li>
+        <li><a href="#comentarios">Comentários</a></li>
+        <li><a href="#contato">Contato</a></li>
+        <li><a href="#perfil">Meu Perfil</a></li>
+    </ul>
+</nav>
+
+<!-- Início -->
+<header id="hero" class="hero">
+    <div class="hero-content">
+        <h1>Bíblia Diária</h1>
+        <p>Reflexões diárias para fortalecer sua fé</p>
+    </div>
+</header>
+
+<!-- Publicar no Diário -->
+<section id="adicionar" class="publicar">
+    <h2>Publicar no Diário</h2>
+    <form action="/reflexoes" method="post">
+        <label>Título: <input type="text" name="titulo" required /></label>
+        <label>Texto: <textarea name="texto" required></textarea></label>
+        <label>Autor: <input type="text" name="autor" required /></label>
+        <label>Data: <input type="date" name="data" /></label>
+        <button type="submit">Publicar</button>
+    </form>
+</section>
+
+<!-- Histórico Diário -->
+<section id="historico" class="historico">
+    <h2>Histórico Diário</h2>
+    <ul>
+        <li th:each="reflexao : ${reflexoes}">
+            <h3 th:text="${reflexao.titulo}"></h3>
+            <p th:text="${reflexao.texto}"></p>
+            <p><strong>Autor:</strong> <span th:text="${reflexao.autor}"></span></p>
+            <p><strong>Data:</strong> <span th:text="${reflexao.data}"></span></p>
+        </li>
+    </ul>
+</section>
+
+<!-- Comentários -->
+<section id="comentarios" class="comentarios">
+    <h2>Comentários</h2>
+    <div class="comentario">
+        <p><strong>Usuário 1:</strong> Comentário inspirador...</p>
+        <p><strong>Usuário 2:</strong> Obrigado pela reflexão...</p>
+    </div>
+</section>
+
+<!-- Contato -->
+<section id="contato" class="contato">
+    <h2>Contato</h2>
+    <p>Envie-nos uma mensagem pelo e-mail:</p>
+    <a href="mailto:lucashfilipe@gmail.com" class="btn-contato">lucashfilipe@gmail.com</a>
+</section>
+
+
+<!-- Meu Perfil -->
+<section id="perfil" class="perfil">
+    <h2>Meu Perfil</h2>
+    <p>Bem-vindo ao seu perfil!</p>
+    <p>Aqui você pode gerenciar suas informações e visualizar suas reflexões publicadas.</p>
+    <button>Editar Perfil</button>
+</section>
+
+<!-- Rodapé -->
+<footer>
+    <p>Contato: <a href="mailto:seuemail@example.com">lucashfilipe@gmail.com</a></p>
+    <p>&copy; 2024 Bíblia Diária</p>
+</footer>

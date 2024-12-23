@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Nova Reflexão</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="container">
+    <h1>Adicionar Nova Reflexão</h1>
+    <form action="/reflexoes" method="post">
+        <label>Título: <input type="text" name="titulo" required /></label>
+        <label>Texto: <textarea name="texto" required></textarea></label>
+        <label>Autor: <input type="text" name="autor" required /></label>
+        <label>Data: <input type="date" name="data" /></label>
+        <button type="submit">Salvar</button>
+    </form>
+    <a href="/reflexoes">Voltar para a lista</a>
+</div>
+</body>
+</html>
