@@ -1,10 +1,18 @@
-<link rel="stylesheet" href="/style.css">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bíblia Diária</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
 
 <!-- Menu Navegação -->
 <nav class="menu">
     <ul>
         <li><a href="#hero">Início</a></li>
-        <li><a href="#adicionar">Publicar no diário</a></li>
+        <li><a href="#adicionar">Publicar no Diário</a></li>
         <li><a href="#historico">Histórico Diário</a></li>
         <li><a href="#comentarios">Comentários</a></li>
         <li><a href="#contato">Contato</a></li>
@@ -37,10 +45,22 @@
     <h2>Histórico Diário</h2>
     <ul>
         <li th:each="reflexao : ${reflexoes}">
-            <h3 th:text="${reflexao.titulo}"></h3>
-            <p th:text="${reflexao.texto}"></p>
-            <p><strong>Autor:</strong> <span th:text="${reflexao.autor}"></span></p>
-            <p><strong>Data:</strong> <span th:text="${reflexao.data}"></span></p>
+            <div class="historico-item">
+                <h3 th:text="${reflexao.titulo}">Título</h3>
+                <p th:text="${reflexao.texto}">Texto</p>
+                <p><strong>Autor:</strong> <span th:text="${reflexao.autor}">Autor</span></p>
+                <p><strong>Data:</strong> <span th:text="${reflexao.data}">Data</span></p>
+
+                <!-- Botão Editar -->
+                <a th:href="@{'/reflexoes/editar/' + ${reflexao.id}}" class="btn-editar">Editar</a>
+
+
+                <!-- Botão Excluir -->
+                <form th:action="@{'/reflexoes/excluir/' + ${reflexao.id}}" method="post" onsubmit="return confirm('Tem certeza que deseja excluir esta reflexão?');">
+                    <input type="hidden" name="_method" value="delete" />
+                    <button type="submit" class="btn-excluir">Excluir</button>
+                </form>
+            </div>
         </li>
     </ul>
 </section>
@@ -61,7 +81,6 @@
     <a href="mailto:lucashfilipe@gmail.com" class="btn-contato">lucashfilipe@gmail.com</a>
 </section>
 
-
 <!-- Meu Perfil -->
 <section id="perfil" class="perfil">
     <h2>Meu Perfil</h2>
@@ -72,6 +91,9 @@
 
 <!-- Rodapé -->
 <footer>
-    <p>Contato: <a href="mailto:seuemail@example.com">lucashfilipe@gmail.com</a></p>
+    <p>Contato: <a href="mailto:lucashfilipe@gmail.com">lucashfilipe@gmail.com</a></p>
     <p>&copy; 2024 Bíblia Diária</p>
 </footer>
+
+</body>
+</html>

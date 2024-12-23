@@ -17,7 +17,7 @@ public class ReflexaoController {
     @Autowired
     private ReflexaoRepository repository;
 
-    // Listar todas as reflexões
+    // ✅ Listar todas as reflexões
     @GetMapping
     public String listarReflexoes(Model model) {
         List<Reflexao> reflexoes = repository.findAll();
@@ -25,14 +25,14 @@ public class ReflexaoController {
         return "listar";
     }
 
-    // Exibir formulário para nova reflexão
+    // ✅ Exibir formulário para nova reflexão
     @GetMapping("/nova")
     public String novaReflexao(Model model) {
         model.addAttribute("reflexao", new Reflexao());
         return "nova";
     }
 
-    // Salvar nova reflexão
+    // ✅ Salvar nova reflexão
     @PostMapping
     public String salvarReflexao(@ModelAttribute Reflexao reflexao) {
         if (reflexao.getData() == null) {
@@ -42,38 +42,34 @@ public class ReflexaoController {
         return "redirect:/reflexoes";
     }
 
-
-    // Exibir formulário para editar uma reflexão
+    // ✅ Mostrar formulário de edição
     @GetMapping("/editar/{id}")
     public String editarReflexao(@PathVariable Long id, Model model) {
         Reflexao reflexao = repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("ID inválido: " + id));
+                .orElseThrow(() -> new IllegalArgumentException("Reflexão inválida: " + id));
         model.addAttribute("reflexao", reflexao);
         return "editar";
     }
 
-    // Salvar reflexão editada
+    // ✅ Atualizar reflexão
     @PostMapping("/atualizar/{id}")
-    public String atualizarReflexao(@PathVariable Long id, @ModelAttribute Reflexao reflexao) {
-        Reflexao existente = repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("ID inválido: " + id));
-
-        existente.setTitulo(reflexao.getTitulo());
-        existente.setTexto(reflexao.getTexto());
-        existente.setData(LocalDate.now());
-
-        repository.save(existente);
-        return "redirect:/reflexoes";
-    }
-
-    // Excluir reflexão
-    @GetMapping("/excluir/{id}")
-    public String excluirReflexao(@PathVariable Long id) {
+    public String atualizarReflexao(@PathVariable Long id, @ModelAttribute Reflexao reflexaoAtualizada) {
         Reflexao reflexao = repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("ID inválido: " + id));
-        repository.delete(reflexao);
+                .orElseThrow(() -> new IllegalArgumentException("Reflexão inválida: " + id));
+
+        reflexao.setTitulo(reflexaoAtualizada.getTitulo());
+        reflexao.setTexto(reflexaoAtualizada.getTexto());
+        reflexao.setAutor(reflexaoAtualizada.getAutor());
+        reflexao.setData(reflexaoAtualizada.getData());
+
+        repository.save(reflexao);
         return "redirect:/reflexoes";
     }
 
-
+    // ✅ Excluir reflexão
+    @PostMapping("/excluir/{id}")
+    public String excluirReflexao(@PathVariable Long id) {
+        repository.deleteById(id);
+        return "redirect:/reflexoes";
+    }
 }

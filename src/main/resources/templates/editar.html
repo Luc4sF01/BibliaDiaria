@@ -1,20 +1,47 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-br">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Editar Reflexão</title>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<div class="container">
+<header class="header-editar">
   <h1>Editar Reflexão</h1>
-  <form th:action="@{/reflexoes/atualizar/{id}(id=${reflexao.id})}" method="post">
-    <label>Título: <input type="text" name="titulo" th:value="${reflexao.titulo}" required /></label>
-    <label>Texto: <textarea name="texto" th:text="${reflexao.texto}" required></textarea></label>
-    <label>Autor: <input type="text" name="autor" th:value="${reflexao.autor}" required /></label>
-    <label>Data: <input type="date" name="data" th:value="${reflexao.data}" /></label>
-    <button type="submit">Salvar Alterações</button>
+</header>
+
+<section class="form-container">
+  <form th:action="@{'/reflexoes/atualizar/' + ${reflexao.id}}" th:object="${reflexao}" method="post" class="form-editar">
+    <div class="form-group">
+      <label for="titulo">Título:</label>
+      <input id="titulo" type="text" th:field="*{titulo}" required />
+    </div>
+
+    <div class="form-group">
+      <label for="texto">Texto:</label>
+      <textarea id="texto" th:field="*{texto}" required></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="autor">Autor:</label>
+      <input id="autor" type="text" th:field="*{autor}" required />
+    </div>
+
+    <div class="form-group">
+      <label for="data">Data:</label>
+      <input id="data" type="date" th:field="*{data}" required />
+    </div>
+
+    <div class="form-buttons">
+      <button type="submit" class="btn-salvar">Salvar Alterações</button>
+      <a href="/reflexoes" class="btn-voltar">Voltar</a>
+    </div>
   </form>
-  <a href="/reflexoes">Voltar para a lista</a>
-</div>
+</section>
+
+<footer>
+  <p>&copy; 2024 Bíblia Diária. Todos os direitos reservados.</p>
+</footer>
 </body>
 </html>
