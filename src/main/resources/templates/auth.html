@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autenticação</title>
+  <style>
+    /* Reset e Estilização Global */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(to right, #1e1e2f, #232330);
+      overflow: hidden;
+    }
+
+    /* Container Principal */
+    .container {
+      width: 80vw;
+      height: 90vh;
+      display: flex;
+      position: relative;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Telas de Login e Cadastro */
+    .form-container {
+      width: 50%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      position: absolute;
+      transition: transform 0.5s ease-in-out;
+      z-index: 2;
+    }
+
+    #login-container {
+      background: #2a2a40;
+      left: 0;
+      z-index: 2;
+    }
+
+    #register-container {
+      background: #1f1f30;
+      left: 100%;
+      z-index: 1;
+    }
+
+    .form-container h2 {
+      margin-bottom: 1em;
+      font-size: 1.8em;
+    }
+
+    .form-container form {
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+      width: 80%;
+    }
+
+    .form-container input {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      margin: 5px 0;
+      background: #3a3a50;
+      color: white;
+    }
+
+    .form-container button {
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .form-container button:hover {
+      background-color: #388E3C;
+    }
+
+    .form-container p {
+      margin-top: 1em;
+      font-size: 0.9em;
+    }
+
+    .form-container span {
+      color: #4CAF50;
+      cursor: pointer;
+    }
+
+    /* Mensagens de Erro */
+    .error {
+      color: #ff4d4d;
+      font-size: 0.8em;
+      margin-top: 5px;
+    }
+
+    /* Painel de Mensagens */
+    .message-container {
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(to right, #2a2a40, #1e1e2f);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      position: absolute;
+      right: 0;
+      z-index: 0;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .message-container h3 {
+      font-size: 2em;
+      margin-bottom: 0.5em;
+    }
+
+    .message-container p {
+      font-size: 1em;
+    }
+
+    /* Efeito de Movimento */
+    .container.move #login-container {
+      transform: translateX(-100%);
+    }
+
+    .container.move #register-container {
+      transform: translateX(-100%);
+      z-index: 2;
+    }
+
+    .container.move .message-container {
+      transform: translateX(-100%);
+    }
+  </style>
+</head>
+<body>
+<div class="container" id="container">
+  <!-- Tela de Login -->
+  <div class="form-container" id="login-container">
+    <h2>Login</h2>
+    <form id="login-form">
+      <input type="email" id="login-email" placeholder="Digite seu email" required>
+      <span id="login-email-error" class="error"></span>
+      <input type="password" id="login-password" placeholder="Digite sua senha" required>
+      <span id="login-password-error" class="error"></span>
+      <button type="button" onclick="validateLogin()">Entrar</button>
+    </form>
+    <p>Não tem uma conta? <span onclick="toggleForm()">Cadastre-se</span></p>
+  </div>
+
+  <!-- Tela de Cadastro -->
+  <div class="form-container" id="register-container">
+    <h2>Cadastro</h2>
+    <form id="register-form">
+      <input type="text" id="register-name" placeholder="Nome completo" required>
+      <span id="register-name-error" class="error"></span>
+      <input type="email" id="register-email" placeholder="Digite seu email" required>
+      <span id="register-email-error" class="error"></span>
+      <input type="password" id="register-password" placeholder="Crie uma senha" required>
+      <span id="register-password-error" class="error"></span>
+      <button type="button" onclick="validateRegister()">Registrar</button>
+    </form>
+    <p>Já tem uma conta? <span onclick="toggleForm()">Faça login</span></p>
+  </div>
+
+  <!-- Mensagens -->
+  <div class="message-container login-message">
+    <h3>Bem-vindo de volta!</h3>
+    <p>Entre para acessar suas reflexões diárias.</p>
+  </div>
+  <div class="message-container register-message">
+    <h3>Junte-se a nós!</h3>
+    <p>Crie sua conta e comece sua jornada de fé.</p>
+  </div>
+</div>
+
+<script>
+  const container = document.getElementById('container');
+
+  function toggleForm() {
+    container.classList.toggle('move');
+  }
+
+  function validateEmail(email) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  }
+
+  function validatePassword(password) {
+    return password.length >= 8 && /\d/.test(password);
+  }
+
+  function validateLogin() {
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+    document.getElementById('login-email-error').innerText = validateEmail(email) ? '' : 'Email inválido!';
+    document.getElementById('login-password-error').innerText = validatePassword(password) ? '' : 'Senha deve ter pelo menos 8 caracteres e um número!';
+  }
+
+  function validateRegister() {
+    const name = document.getElementById('register-name').value;
+    const email = document.getElementById('register-email').value;
+    const password = document.getElementById('register-password').value;
+
+    document.getElementById('register-name-error').innerText = name ? '' : 'Nome é obrigatório!';
+    document.getElementById('register-email-error').innerText = validateEmail(email) ? '' : 'Email inválido!';
+    document.getElementById('register-password-error').innerText = validatePassword(password) ? '' : 'Senha deve ter pelo menos 8 caracteres e um número!';
+  }
+</script>
+</body>
+</html>
